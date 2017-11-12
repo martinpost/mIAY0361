@@ -1,10 +1,9 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Scanner;
 
 public class WeatherFun {
     private String city;
@@ -20,8 +19,20 @@ public class WeatherFun {
     String day3tempmin = "";
     String day3tempmax = "";
 
+
     WeatherFun(String city) throws IOException {
         this.city = city;
+
+        System.out.println("Enter city name:");
+        Scanner scanner = new Scanner(System.in);
+        String holder = scanner.nextLine();
+        if (!holder.equals("")) {
+            this.city = holder;
+        }
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter("input.txt"));
+        writer.write(this.city);
+        writer.close();
 
         String path = "http://api.openweathermap.org/data/2.5/forecast?id=588409&APPID=12eb7563cf461f80e54a415effa8de38";
 
@@ -92,6 +103,16 @@ public class WeatherFun {
         }
 
         in.close();
+
+        BufferedWriter writer1 = new BufferedWriter(new FileWriter("output.txt"));
+        writer1.write("This is first day temp: " + day1temp);
+        writer1.write("This is first day min temp: " + day1tempmin);
+        writer1.write("This is first day max temp: " + day1tempmax);
+        writer1.write("This is second day min temp: " + day2tempmin);
+        writer1.write("This is second day max temp: " + day2tempmax);
+        writer1.write("This is third day min temp: " + day3tempmin);
+        writer1.write("This is third day max temp: " + day3tempmax);
+        writer1.close();
 
     }
 
